@@ -28,7 +28,14 @@ if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.new" $URL; fi
 
 
 # EXTRACT TEXT!
-sed -i "/Parent Directory/,/hr/ !d" "$SLUG.new"
+# Note: OS X sed is different. We need gnu-sed on OS X. 
+# Run $ brew install gnu-sed
+# and get yourself gsed.
+# 
+# We run both gsed and sed because nothing really matters...
+# at least when it comes to this.
+gsed -ni "/Parent Directory/,/<hr>/p" "$SLUG.new"
+sed -i "/Parent Directory/,/<hr>/p" "$SLUG.new"
 
 
 # We make sure the files exist
@@ -43,7 +50,10 @@ if [ -n "$DIFF" ]
 then
     echo "DIFF in $SLUG"
 	DATE=`date +'%F-%H-%M'`
-	mkdir $SLUG
+    if [ ! -d "$SLUG" ]
+    then
+	    mkdir $SLUG
+    fi
 	rm "$SLUG.old"
 	mv "$SLUG.current" "$SLUG.old"
 	mv "$SLUG.new" "$SLUG.current"
