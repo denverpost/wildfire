@@ -43,6 +43,9 @@ if [ ! -f "$SLUG.old" ]; then touch "$SLUG.old"; fi
 if [ ! -f "$SLUG.current" ]; then touch "$SLUG.current"; fi
 touch "$SLUG.new"
 
+# Filter out all but the Colorado fires
+grep "CO-" "$SLUG.new" > tmp; mv tmp "$SLUG.new"
+
 # COMPARE!
 # If there are any differences, we store the new version and log the diff.
 DIFF=`diff "$SLUG.current" "$SLUG.new"`
