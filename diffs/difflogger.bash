@@ -1,13 +1,14 @@
 #!/bin/bash
-# Logs changes to a file if there are any.
-# Example use (for extracting a chunk of text from another file):
-# $ ./difflogger.bash --url http://www.berkshireeagle.com/
+# Logs changes to GEOMAC's list of fire perimeters at http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/
+# Example:
+# $ ./difflogger.bash --state CO
 
 
 # Default arguments
 URL='http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
 TEST=0
 SLUG='kml_list'
+STATE='all'
 
 # What arguments do we pass?
 while [ "$1" != "" ]; do
@@ -18,13 +19,16 @@ while [ "$1" != "" ]; do
 		-t | --test ) shift
 			TEST=1
 			;;
+        -s | --state ) shift
+            STATE=$1
+            ;;
 	esac
 	shift
 done
 
 # DOWNLOAD!
 # If we're not testing, we download the file
-if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.new" $URL; fi
+if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.$STATE.new" $URL; fi
 
 
 # EXTRACT TEXT!
@@ -34,37 +38,39 @@ if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.new" $URL; fi
 # 
 # We run both gsed and sed because nothing really matters...
 # at least when it comes to this.
-gsed -ni "/Parent Directory/,/<hr>/p" "$SLUG.new"
-sed -i "/Parent Directory/,/<hr>/p" "$SLUG.new"
+gsed -ni "/Parent Directory/,/<hr>/p" "$SLUG.$STATE.new"
+sed -i "/Parent Directory/,/<hr>/p" "$SLUG.$STATE.new"
 
 
 # We make sure the files exist
-if [ ! -f "$SLUG.old" ]; then touch "$SLUG.old"; fi
-if [ ! -f "$SLUG.current" ]; then touch "$SLUG.current"; fi
-touch "$SLUG.new"
+if [ ! -f "$SLUG.$STATE.old" ]; then touch "$SLUG.$STATE.old"; fi
+if [ ! -f "$SLUG.$STATE.current" ]; then touch "$SLUG.$STATE.current"; fi
+touch "$SLUG.$STATE.new"
 
-# Filter out all but the Colorado fires
-grep "CO-" "$SLUG.new" > tmp; mv tmp "$SLUG.new"
+# If we want to filter by state, do it.
+if [ "$STATE" != 'all' ]; then
+    grep "$STATE-" "$SLUG.$STATE.new" > tmp; mv tmp "$SLUG.$STATE.new"
+fi
 
 # COMPARE!
 # If there are any differences, we store the new version and log the diff.
-DIFF=`diff "$SLUG.current" "$SLUG.new"`
+DIFF=`diff "$SLUG.$STATE.current" "$SLUG.$STATE.new"`
 if [ -n "$DIFF" ]
 then
-    echo "DIFF in $SLUG"
+    echo "DIFF in $SLUG.$STATE"
 	DATE=`date +'%F-%H-%M'`
-    if [ ! -d "$SLUG" ]
+    if [ ! -d "$SLUG-$STATE" ]
     then
-	    mkdir $SLUG
+	    mkdir $SLUG-$STATE
     fi
-	rm "$SLUG.old"
-	mv "$SLUG.current" "$SLUG.old"
-	mv "$SLUG.new" "$SLUG.current"
-	cp "$SLUG.current" "$SLUG/the.file.$DATE"
-	echo $DIFF > "$SLUG/the.diff.$DATE"
+	rm "$SLUG.$STATE.old"
+	mv "$SLUG.$STATE.current" "$SLUG.$STATE.old"
+	mv "$SLUG.$STATE.new" "$SLUG.$STATE.current"
+	cp "$SLUG.$STATE.current" "$SLUG-$STATE/the.file.$DATE"
+	echo $DIFF > "$SLUG-$STATE/the.diff.$DATE"
 else
 	echo "NO DIFF in $SLUG"
-	rm "$SLUG.new"
+	rm "$SLUG.$STATE.new"
 	exit 2
 fi
 
