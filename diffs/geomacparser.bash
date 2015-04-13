@@ -7,7 +7,7 @@
 # Example line from an input file:
 # <a href="CO-MFX-JK2S%20Strawberry%203-31-2015%201530.kml">CO-MFX-JK2S Strawberry 3-31-2015 1530.kml</a>            2015-04-03 13:33  3.7K
 
-$FILE = ''
+$FILE=''
 
 # Turn arguments into something we can use
 while [ "$1" != "" ]; do
