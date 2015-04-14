@@ -10,7 +10,6 @@ from datetime import datetime
 # $ ./geomacparser.py kml_list.CO.current
 #
 # Example line from an input file:
-# <a href="CO-MFX-JK2S%20Strawberry%203-31-2015%201530.kml">CO-MFX-JK2S Strawberry 3-31-2015 1530.kml</a>            2015-04-03 13:33  3.7K
 
 #    echo "Couldn't find file $FILE, please pass a --file FILENAME argument to this script."
 
@@ -21,18 +20,25 @@ def main(args):
     url_prefix = 'http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
 
     for line in fh.readlines():
+        """ We're matching lines such as:
+<a href="CO-MFX-JK2S%20Strawberry%203-31-2015%201530.kml">CO-MFX-JK2S Strawberry 3-31-2015 1530.kml</a>            2015-04-03 13:33  3.7K
+            And
+<a href="FL-EVP-JGS7%20FFS%20152%20212%202-26-2015%200000.kml">FL-EVP-JGS7 FFS 152 212 2-26-2015 0000.kml</a>           2015-03-20 13:25  5.0K
+        """
         if 'Last modified' in line:
             continue
         line = line.strip()
-        #print line
-        pattern = '.*href="(?P<href>[^"]+)">(?P<slug>[^ ]+)\ (?P<fire>[^0-9]+)(?P<date>[0-9]{1,2}-[0-9]{1,2}-[0-9]{4})\ (?P<time>[0-9]{4})'
-        regex = re.compile(pattern, re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        pattern = '.*href="\
+(?P<href>[^"]+)">(?P<slug>[^ ]+)\ \
+(?P<fire>[^-]+) \
+(?P<date>[0-9]{1,2}-[0-9]{1,2}-[0-9]{4})\ \
+(?P<time>[0-9]{4})'
+        regex = re.compile(pattern, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         r = regex.search(line.strip())
         regex.match(line.strip())
         parts = regex.findall(line)
-        #print parts
         if parts == []:
-            print line
+            pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='', description='Handle the options we handle.',
