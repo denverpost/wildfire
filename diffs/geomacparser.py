@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env python
 # Parse GEOMAC's list of KML files and return HTML or a CSV.
 # Takes a filename as input and goes line-by-line through the file.
 # Usage:
-# $ ./geomacparser.bash kml_list.CO.current
+# $ ./geomacparser.py kml_list.CO.current
 #
 # Example line from an input file:
 # <a href="CO-MFX-JK2S%20Strawberry%203-31-2015%201530.kml">CO-MFX-JK2S Strawberry 3-31-2015 1530.kml</a>            2015-04-03 13:33  3.7K
