@@ -38,7 +38,13 @@ def main(args):
         regex.match(line.strip())
         parts = regex.findall(line)
         if parts == []:
-            pass
+            continue
+        content += parts
+
+    print content
+    with open('%s-fires.csv' % args.state, 'wb') as f:
+        writer = csv.writer(f)
+        writer.writerows(content)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='', description='Handle the options we handle.',
