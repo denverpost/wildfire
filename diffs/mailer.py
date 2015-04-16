@@ -14,10 +14,10 @@ def send_mail(filename, *recipients):
 
     msg['Subject'] = 'New Wildfire Perimeter Map:'
     msg['From'] = sender
-    msg['To'] = recipients[0]
+    msg['To'] = recipients[0][0]
 
     s = smtplib.SMTP('localhost')
-    s.sendmail(sender, [recipients[0]], msg.as_string())
+    s.sendmail(sender, recipients[0], msg.as_string())
     s.quit()
 
 if __name__ == '__main__':
