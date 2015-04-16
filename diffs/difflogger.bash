@@ -71,6 +71,8 @@ then
 	echo $DIFF > "$SLUG-$STATE/the.diff.$DATE"
 
     python geomacparser.py --state $STATE
+    python mailer.py --state $STATE jmurphy@denverpost.com khamm@denverpost.com
+    
 else
 	echo "NO DIFF in $SLUG"
 	rm "$SLUG.$STATE.new"
