@@ -35,7 +35,7 @@ if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.$STATE.new" $URL; fi
 # Note: OS X sed is different. We need gnu-sed on OS X. 
 # Run $ brew install gnu-sed
 # and get yourself gsed.
-# 
+
 # We run both gsed and sed because nothing really matters...
 # at least when it comes to this.
 gsed -ni "/Parent Directory/,/<hr>/p" "$SLUG.$STATE.new"
@@ -54,6 +54,7 @@ fi
 
 # COMPARE!
 # If there are any differences, we store the new version and log the diff.
+# We also run the parser.
 DIFF=`diff "$SLUG.$STATE.current" "$SLUG.$STATE.new"`
 if [ -n "$DIFF" ]
 then
@@ -68,6 +69,8 @@ then
 	mv "$SLUG.$STATE.new" "$SLUG.$STATE.current"
 	cp "$SLUG.$STATE.current" "$SLUG-$STATE/the.file.$DATE"
 	echo $DIFF > "$SLUG-$STATE/the.diff.$DATE"
+
+    python geomacparser.py --state $STATE
 else
 	echo "NO DIFF in $SLUG"
 	rm "$SLUG.$STATE.new"

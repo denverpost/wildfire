@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Parse GEOMAC's list of KML files and return HTML or a CSV.
-import os, sys, doctest, csv, argparse
+import os, sys, doctest, csv
+import argparse
 import re
 from datetime import datetime
 #from bs4 import BeautifulSoup
