@@ -8,7 +8,8 @@ def send_mail(filename, sender, *recipients):
     """ Send an email with the current CSV to someone.
         >>> filename = 'mailer.py'
         >>> recipients = ['noreply@denverpost.com']
-        >>> send_mail(filename, *recipients)
+        >>> sender = 'noreply@denverpost.com'
+        >>> send_mail(filename, sender, *recipients)
 
         """
     fp = open(filename, 'rb')
