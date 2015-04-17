@@ -49,7 +49,6 @@ def main(args):
         datetime = '%s %s' % (parts[0][3].strip(), parts[0][4].strip())
         content += [(state, fire, slug, url, datetime)]
 
-    print content
     with open('%s-fires.csv' % args.state, 'wb') as f:
         writer = csv.writer(f)
         writer.writerows(content)
@@ -62,8 +61,6 @@ if __name__ == '__main__':
                         help='a two-letter abbreviation for the state we want to process, i.e. CO CA AZ etc.')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     args = parser.parse_args()
-    print dir(args)
-    print args.state
 
     if args.verbose:
         doctest.testmod(verbose=args.verbose)

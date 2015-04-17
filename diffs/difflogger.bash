@@ -3,6 +3,11 @@
 # Example:
 # $ ./difflogger.bash --state CO
 
+# Environment variables are stored in project root.
+# Currently two variables are set in it:
+#   $RECIPIENTS, a space-separated list of email addresses to send to
+#   $SENDER, the sending email address.
+source ../source.bash
 
 # Default arguments
 URL='http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
@@ -71,7 +76,8 @@ then
 	echo $DIFF > "$SLUG-$STATE/the.diff.$DATE"
 
     python geomacparser.py --state $STATE
-    python mailer.py --state $STATE jmurphy@denverpost.com khamm@denverpost.com
+    # The $SENDER and $RECIPIENTS are set via environment variables.
+    python mailer.py --state $STATE --sender $SENDER $RECIPIENTS
     
 else
 	echo "NO DIFF in $SLUG"
