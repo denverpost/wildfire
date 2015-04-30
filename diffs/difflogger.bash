@@ -57,6 +57,12 @@ if [ "$STATE" != 'all' ]; then
     grep "$STATE-" "$SLUG.$STATE.new" > tmp; mv tmp "$SLUG.$STATE.new"
 fi
 
+# If the file's empty or near-empty, exit
+FILESIZE=$(du -b "$SLUG.$STATE.new" | cut -f 1)
+if [ $FILESIZE -lt 200 ]; then
+    exit 2;
+fi
+
 # COMPARE!
 # If there are any differences, we store the new version and log the diff.
 # We also run the parser.
