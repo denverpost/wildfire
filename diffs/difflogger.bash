@@ -41,8 +41,8 @@ if [ "$TEST" -eq 0 ]; then wget -q -O "$SLUG.$STATE.new" $URL; fi
 # Run $ brew install gnu-sed
 # and get yourself gsed.
 
-# We run both gsed and sed because nothing really matters...
-# at least when it comes to this.
+# We run both gsed and sed because we want to accommodate bash
+# and whatever shell OSX runs.
 gsed -ni "/Parent Directory/,/<hr>/p" "$SLUG.$STATE.new"
 sed -i "/Parent Directory/,/<hr>/p" "$SLUG.$STATE.new"
 

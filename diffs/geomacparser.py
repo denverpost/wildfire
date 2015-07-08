@@ -4,7 +4,6 @@ import os, sys, doctest, csv
 import argparse
 import re
 from datetime import datetime
-#from bs4 import BeautifulSoup
 
 # Takes a filename as input and goes line-by-line through the file.
 # Usage:
@@ -17,7 +16,7 @@ from datetime import datetime
 def main(args):
     fn = 'kml_list.%s.current' % args.state
     fh = open(fn, 'rb')
-    content = [('state', 'fire', 'slug', 'url', 'datetime')]
+    content = [('state', 'fire', 'slug', 'datetime', 'url')]
     url_prefix = 'http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
 
     for line in fh.readlines():
@@ -47,14 +46,14 @@ def main(args):
         state = slug[:2]
         url = '%s%s' % (url_prefix, parts[0][0].strip())
         datetime = '%s %s' % (parts[0][3].strip(), parts[0][4].strip())
-        content += [(state, fire, slug, url, datetime)]
+        content += [(state, fire, slug, datetime, url)]
 
     with open('%s-fires.csv' % args.state, 'wb') as f:
         writer = csv.writer(f)
         writer.writerows(content)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(usage='', description='Handle the options we handle.',
+    parser = argparse.ArgumentParser(usage='', description='Handle the options.',
                                      epilog='')
     parser.add_argument('-s', '--state', dest='state', action='store',
                         default='all',
