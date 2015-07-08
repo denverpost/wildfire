@@ -39,5 +39,5 @@ if __name__ == '__main__':
     if args.verbose:
         doctest.testmod(verbose=args.verbose)
 
-    filename = '%s-fires.csv' % args.state
+    filename = '%s-fires-diff.csv' % args.state
     send_mail(filename, args.sender, *args.recipients[0])

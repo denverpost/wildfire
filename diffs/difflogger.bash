@@ -81,9 +81,14 @@ then
 	cp "$SLUG.$STATE.current" "$SLUG-$STATE/the.file.$DATE"
 	echo $DIFF > "$SLUG-$STATE/the.diff.$DATE"
 
+    # Build a CSV of the fire data.
     python geomacparser.py --state $STATE
+
+    # Store a diff of the CSV that we email to our people.
+    diff "$STATE-fires.csv" "$STATE-fires-new.csv" > "$STATE-fires-diff.csv"
     # The $SENDER and $RECIPIENTS are set via environment variables.
     python mailer.py --state $STATE --sender $SENDER $RECIPIENTS
+    rm "$STATE-fires.csv"; mv "$STATE-fires-new.csv" "$STATE-fires.csv"
     
 else
 	echo "NO DIFF in $SLUG"

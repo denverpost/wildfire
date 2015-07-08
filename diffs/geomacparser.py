@@ -48,7 +48,7 @@ def main(args):
         datetime = '%s %s' % (parts[0][3].strip(), parts[0][4].strip())
         content += [(state, fire, slug, datetime, url)]
 
-    with open('%s-fires.csv' % args.state, 'wb') as f:
+    with open('%s-fires-new.csv' % args.state, 'wb') as f:
         writer = csv.writer(f)
         writer.writerows(content)
 
