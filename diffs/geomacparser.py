@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Parse GEOMAC's list of KML files and return HTML or a CSV.
+# Parse GEOMAC's list of KML files and a CSV.
 import os, sys, doctest, csv
 import argparse
 import re
