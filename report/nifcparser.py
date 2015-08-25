@@ -18,21 +18,24 @@ class NIFCparser:
         fh.close
         
         self.regexes = {
-            'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<blob>.*)\.</p></td>""",
+            'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<report>.*)\.</p></td>""",
+            'fires_active': """\s+Total\ does\ not\ include\ individual\ fires\ within\ complexes.</em></span></td>
+\s+<td>(?P<fires_active>[0-9]+)</td>""",
             'acres_active': """<td\ height="54">Acres\ from\ active\ fires\ </td>
-[\s]+<td>(?P<acres>[^<]+)</td>""",
-            'new_fires': """<td width="345">Number of new large fires </td>
-.*<td width="105">4</td>"""
+\s+<td>(?P<acres_active>[^<]+)</td>""",
+            'new_fires': """<td\ width="345">Number\ of\ new\ large\ fires\ </td>
+\s+<td\ width="105">(?P<new_fires>[0-9]+)</td>""",
         }
 
     def compile_regex(self, pattern):
         """ Take one of the self.regexes and run it against the markup.
-            Return a findall object.
+            Return a dict object.
             """
         regex = re.compile(self.regexes[pattern], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         r = regex.search(self.markup)
-        regex.match(self.markup)
-        return regex.findall(self.markup)
+        #regex.match(self.markup)
+        #regex.findall(self.markup)
+        return r.groupdict()
 
     def get_large_fire_list(self):
         """ Turn the large fire list into a dict.
@@ -43,6 +46,7 @@ def main(args):
     p = NIFCparser()
     parts = p.compile_regex('report')
     parts = p.compile_regex('acres_active')
+    parts = p.compile_regex('fires_active')
     print parts
 
 def build_parser(args):
