@@ -20,7 +20,7 @@ class NIFCparser:
         self.regexes = {
             'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<blob>.*)\.</p></td>""",
             'acres_active': """<td\ height="54">Acres\ from\ active\ fires\ </td>
-.*<td>(?<acres>[0-9\,]+)</td>""",
+[\s]+<td>(?P<acres>[^<]+)</td>""",
             'new_fires': """<td width="345">Number of new large fires </td>
 .*<td width="105">4</td>"""
         }
@@ -42,6 +42,7 @@ class NIFCparser:
 def main(args):
     p = NIFCparser()
     parts = p.compile_regex('report')
+    parts = p.compile_regex('acres_active')
     print parts
 
 def build_parser(args):
