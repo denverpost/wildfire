@@ -25,6 +25,10 @@ class NIFCparser:
 \s+<td>(?P<acres_active>[^<]+)</td>""",
             'new_fires': """<td\ width="345">Number\ of\ new\ large\ fires\ </td>
 \s+<td\ width="105">(?P<new_fires>[0-9]+)</td>""",
+            'fires_active_by_state': """<td\ rowspan="3"><p>(?P<fires_active_by_state>.*)</p></td>
+\s+</tr>
+\s+<tr>
+"""
         }
 
     def compile_regex(self, pattern):
@@ -47,6 +51,7 @@ def main(args):
     parts = p.compile_regex('report')
     parts = p.compile_regex('acres_active')
     parts = p.compile_regex('fires_active')
+    parts = p.compile_regex('fires_active_by_state')
     print parts
 
 def build_parser(args):
