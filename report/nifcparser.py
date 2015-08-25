@@ -53,6 +53,7 @@ def main(args):
     parts = p.compile_regex('report')
     parts = p.compile_regex('acres_active')
     parts = p.compile_regex('fires_active')
+    parts = p.compile_regex('fires_active_by_state')
     print parts
     fire_list = p.get_fires_active_by_state()
     print fire_list
