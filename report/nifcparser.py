@@ -18,23 +18,21 @@ class NIFCparser:
         fh.close
         
         self.regexes = {
-            'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<blob>.*)\.</p></td>"""
+            'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<blob>.*)\.</p></td>""",
+            'acres_active': """<td\ height="54">Acres\ from\ active\ fires\ </td>
+.*<td>(?<acres>[0-9\,]+)</td>""",
+            'new_fires': """<td width="345">Number of new large fires </td>
+.*<td width="105">4</td>"""
         }
 
-    def get_blob(self):
-        """ Get a blob of text, such as the report or the weather.
+    def compile_regex(self, pattern):
+        """ Take one of the self.regexes and run it against the markup.
+            Return a findall object.
             """
-        regex = re.compile(self.regexes['report'], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        regex = re.compile(self.regexes[pattern], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         r = regex.search(self.markup)
         regex.match(self.markup)
-        parts = regex.findall(self.markup)
-        print parts
-
-    def get_stats(self):
-        """ Get the individual stats, such as # of new large fires or
-            active fire acres.
-            """
-        pass
+        return regex.findall(self.markup)
 
     def get_large_fire_list(self):
         """ Turn the large fire list into a dict.
@@ -43,7 +41,8 @@ class NIFCparser:
 
 def main(args):
     p = NIFCparser()
-    p.get_blob()
+    parts = p.compile_regex('report')
+    print parts
 
 def build_parser(args):
     """ A method to make arg parsing testable.
