@@ -10,13 +10,25 @@ class NIFCparser:
         so this class makes it as easy as we can make it to do that.
         """
 
-    def init(self):
-        pass
+    def __init__(self):
+        self.filename = 'report.html.current'
+
+        fh = open(self.filename, 'r')
+        self.markup = fh.read()
+        fh.close
+        
+        self.regexes = {
+            'report': """<td\ height="629"\ colspan="3"><p\ class="tableHeading">(?P<date>[^<]+)</p>(?P<blob>.*)\.</p></td>"""
+        }
 
     def get_blob(self):
         """ Get a blob of text, such as the report or the weather.
             """
-        pass
+        regex = re.compile(self.regexes['report'], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        r = regex.search(self.markup)
+        regex.match(self.markup)
+        parts = regex.findall(self.markup)
+        print parts
 
     def get_stats(self):
         """ Get the individual stats, such as # of new large fires or
@@ -30,7 +42,8 @@ class NIFCparser:
         pass
 
 def main(args):
-    pass
+    p = NIFCparser()
+    p.get_blob()
 
 def build_parser(args):
     """ A method to make arg parsing testable.
