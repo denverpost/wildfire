@@ -27,8 +27,8 @@ class NIFCparser:
 \s+<td\ width="105">(?P<new_fires>[0-9]+)</td>""",
             'fires_active_by_state': """<td\ rowspan="3"><p>(?P<fires_active_by_state>.*)</p></td>
 \s+</tr>
-\s+<tr>
-"""
+\s+<tr>""",
+            'fires_active_item': """\s?(?P<state>[A-Za-z ]+ ) \((?P<fires>[0-9]+)\)\s?<br\ />"""
         }
 
     def compile_regex(self, pattern):
@@ -37,22 +37,25 @@ class NIFCparser:
             """
         regex = re.compile(self.regexes[pattern], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         r = regex.search(self.markup)
-        #regex.match(self.markup)
-        #regex.findall(self.markup)
         return r.groupdict()
 
-    def get_large_fire_list(self):
+    def get_fires_active_by_state(self):
         """ Turn the large fire list into a dict.
             """
-        pass
+        raw = self.compile_regex('fires_active_by_state')
+        regex = re.compile(self.regexes['fires_active_item'], re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        regex.match(raw['fires_active_by_state'])
+        return regex.findall(self.markup)
+        
 
 def main(args):
     p = NIFCparser()
     parts = p.compile_regex('report')
     parts = p.compile_regex('acres_active')
     parts = p.compile_regex('fires_active')
-    parts = p.compile_regex('fires_active_by_state')
     print parts
+    fire_list = p.get_fires_active_by_state()
+    print fire_list
 
 def build_parser(args):
     """ A method to make arg parsing testable.
