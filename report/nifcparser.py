@@ -5,6 +5,30 @@ import argparse
 import re
 from datetime import datetime
 
+class NIFCparser:
+    """ There are at least three separate types of data we're extracting,
+        so this class makes it as easy as we can make it to do that.
+        """
+
+    def init(self):
+        pass
+
+    def get_blob(self):
+        """ Get a blob of text, such as the report or the weather.
+            """
+        pass
+
+    def get_stats(self):
+        """ Get the individual stats, such as # of new large fires or
+            active fire acres.
+            """
+        pass
+
+    def get_large_fire_list(self):
+        """ Turn the large fire list into a dict.
+            """
+        pass
+
 def main(args):
     pass
 
