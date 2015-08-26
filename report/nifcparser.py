@@ -28,7 +28,7 @@ class NIFCparser:
             'fires_active_by_state': """<td\ rowspan="3"><p>(?P<fires_active_by_state>.*)</p></td>
 \s+</tr>
 \s+<tr>""",
-            'fires_active_item': """\s?(?P<state>[A-Za-z ]+ ) \((?P<fires>[0-9]+)\)\s?<br\ />"""
+            'fires_active_item': """\s?(?P<state>[A-Za-z ]+ )\ \((?P<fires>[0-9]+)\)\s?(<br\ />)?"""
         }
 
     def compile_regex(self, pattern):
