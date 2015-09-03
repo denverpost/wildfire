@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Publish wildfire data
+# Get the fire details included in the fire KML
 import os, sys, doctest, csv
 import argparse
 import re
