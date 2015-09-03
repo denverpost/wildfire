@@ -17,4 +17,9 @@ while [ "$1" != "" ]; do
 	shift
 done
 
-csvsql --query "select * from '$STATE-fires' GROUP BY fire ORDER BY datetime DESC" $STATE-fires.csv | csvjson > $STATE-fires.json
+if [ ! -d "output" ]
+then
+    mkdir output
+fi
+
+csvsql --query "select * from '$STATE-fires' GROUP BY fire ORDER BY datetime DESC" $STATE-fires.csv | csvjson > output/$STATE-fires.json
