@@ -67,7 +67,7 @@ var boundarymap = {
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(this.map);
-        var runlayer = omnivore.kml("output/CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml", null, this.layerOptions).on("ready", function(e) {}).addTo(this.map);
+        var runlayer = omnivore.kml("output/CO-LSD-JYZ9_Red_Dirt_7-20-2015_1400.kml", null, this.layerOptions).on("ready", function(e) {}).addTo(this.map);
         console.log(runlayer);
 
         // Functions that control the on-hover info windows

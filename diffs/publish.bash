@@ -29,6 +29,7 @@ for URL in `csvsql --query "select url from '$STATE-fires' ORDER BY datetime DES
 do
     # This regex captures everything after the final "/" in the url.
     FILENAME=`expr "$URL" : '.*\/\(.*\)'`
+    FILENAME=${FILENAME//%20/_}
 
     if [ ! -e "output/$FILENAME" ];
     then
