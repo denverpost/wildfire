@@ -31,7 +31,7 @@ var boundarymap = {
 
         return str;
     },
-    map: L.map('map', { zoomControl:true }).setView([39.7392, -104.8847], 10),
+    map: L.map('map', { zoomControl:true }).setView([39.7392, -104.8847], 7),
     info: L.control(),
     layerOptions: L.geoJson(null, {
         //filter: function(item) {
@@ -67,7 +67,8 @@ var boundarymap = {
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(this.map);
-        var runlayer = omnivore.kml("http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml", null, this.layerOptions).on("ready", function(e) {}).addTo(this.map);
+        var runlayer = omnivore.kml("output/CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml", null, this.layerOptions).on("ready", function(e) {}).addTo(this.map);
+        console.log(runlayer);
 
         // Functions that control the on-hover info windows
         this.info.options = {
