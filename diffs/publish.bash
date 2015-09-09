@@ -23,3 +23,6 @@ then
 fi
 
 csvsql --query "select * from '$STATE-fires' GROUP BY fire ORDER BY datetime DESC" $STATE-fires.csv | csvjson > output/$STATE-fires.json
+
+
+../ftp.bash --dir $REMOTE_DIR --source_dir output --host $REMOTE_HOST
