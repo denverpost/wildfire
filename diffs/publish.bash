@@ -25,15 +25,23 @@ fi
 csvsql --query "select * from '$STATE-fires' GROUP BY fire ORDER BY datetime DESC" $STATE-fires.csv | csvjson > output/$STATE-fires.json
 
 # Download the KML to our server, if we haven't downloaded it already.
-for URL in `csvsql --query "select url from '$STATE-fires' ORDER BY datetime DESC" $STATE-fires.csv`;
+for ITEM in `csvsql --query "select state, url from '$STATE-fires' ORDER BY datetime DESC" $STATE-fires.csv`;
 do
+    STATE=`echo $ITEM | cut -d',' -f1`
+    URL=`echo $ITEM | cut -d',' -f2`
+
     # This regex captures everything after the final "/" in the url.
     FILENAME=`expr "$URL" : '.*\/\(.*\)'`
     FILENAME=${FILENAME//%20/_}
 
-    if [ ! -e "output/$FILENAME" ];
+    if [ ! -d "output/$STATE" ];
     then
-        wget -O "output/$FILENAME" "$URL"
+        mkdir output/$STATE
+    fi
+
+    if [ ! -e "output/$STATE/$FILENAME" ];
+    then
+        wget -O "output/$STATE/$FILENAME" "$URL"
         echo $FILENAME
     fi
 done
