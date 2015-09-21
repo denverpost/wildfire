@@ -67,8 +67,23 @@ var boundarymap = {
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(this.map);
-        var runlayer = omnivore.kml("output/CO-LSD-JYZ9_Red_Dirt_7-20-2015_1400.kml", null, this.layerOptions).on("ready", function(e) {}).addTo(this.map);
-        console.log(runlayer);
+        var runlayer = omnivore.kml("output/CO/CO-LSD-JYZ9_Red_Dirt_7-20-2015_1400.kml", null, this.layerOptions)
+            .on("ready", function(e) 
+            {
+                console.log(e);
+                var points = [];
+                var keys = Object.keys(runlayer._layers);
+                var count = keys.length;
+                for ( var i = 0; i < count; i++ )
+                {
+                    if ( typeof runlayer._layers[keys[i]]._latlng !== "undefined" )
+                    {
+                        points.push(runlayer._layers[keys[i]]._latlng); 
+                    }
+                }
+                window.boundarymap.map.fitBounds(points);
+                window.boundarymap.map.zoomOut(6);
+            }).addTo(this.map);
 
         // Functions that control the on-hover info windows
         this.info.options = {
