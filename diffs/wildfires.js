@@ -28,7 +28,7 @@ $.ajax({
 
 
 
-var boundarymap = {
+var mapmanager = {
     slugify: function (str) {
         // From http://dense13.com/blog/2009/05/03/converting-string-to-slug-javascript/
         str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -97,8 +97,8 @@ var boundarymap = {
                         points.push(runlayer._layers[keys[i]]._latlng); 
                     }
                 }
-                window.boundarymap.map.fitBounds(points);
-                window.boundarymap.map.zoomOut(6);
+                window.mapmanager.map.fitBounds(points);
+                window.mapmanager.map.zoomOut(6);
             }).addTo(this.map);
 
         // Functions that control the on-hover info windows
@@ -123,4 +123,4 @@ var boundarymap = {
         this.info.addTo(this.map);
     }
 };
-boundarymap.init();
+mapmanager.init();
