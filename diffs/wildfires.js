@@ -14,7 +14,7 @@
 
 $.ajax({
     dataType: 'json',
-    //url: 'http://extras.denverpost.com/app/trial-results/output/config.jsonp',
+    //url: 'http://extras.denverpost.com/app/results/output/config.jsonp',
     url: 'output/CO-fires.json',
     success: function (items) 
     {
@@ -22,7 +22,7 @@ $.ajax({
         $.each(items, function(item) 
         {
             var fire = items[item];
-            $('#fires').append('<li>' + fire['fire'] + '</li>');
+            $('#fires').append('<li><a href="#" onClick="mapmanager.load_kml(\'' + fire['filename'] + '\'); return false;">' + fire['fire'] + '</a></li>');
         });
     }
 });
@@ -80,11 +80,11 @@ var mapmanager = {
             };
         }
     }),
-    init: function() {
-        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-        }).addTo(this.map);
-        var runlayer = omnivore.kml("output/CO/CO-LSD-JYZ9_Red_Dirt_7-20-2015_1400.kml", null, this.layerOptions)
+    load_kml: function (filename) {
+        // Because of differences in file naming conventions:
+        filename = filename.replace(/%20/g, '_');
+
+        var runlayer = omnivore.kml("output/CO/" + filename, null, this.layerOptions)
             .on("ready", function(e) 
             {
                 console.log(e);
@@ -101,6 +101,12 @@ var mapmanager = {
                 window.mapmanager.map.fitBounds(points);
                 window.mapmanager.map.zoomOut(6);
             }).addTo(this.map);
+        runlayer = null;
+    },
+    init: function() {
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        }).addTo(this.map);
 
         // Functions that control the on-hover info windows
         this.info.options = {
