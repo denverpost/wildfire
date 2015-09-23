@@ -16,7 +16,7 @@ from datetime import datetime
 def main(args):
     fn = 'kml_list.%s.current' % args.state
     fh = open(fn, 'rb')
-    content = [('state', 'fire', 'slug', 'datetime', 'url')]
+    content = [('state', 'fire', 'slug', 'datetime', 'filename', 'url')]
     url_prefix = 'http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
 
     for line in fh.readlines():
@@ -44,9 +44,10 @@ def main(args):
         fire = parts[0][2].strip()
         slug = parts[0][1].strip()
         state = slug[:2]
-        url = '%s%s' % (url_prefix, parts[0][0].strip())
+        filename = parts[0][0].strip()
+        url = '%s%s' % (url_prefix, filename)
         datetime = '%s %s' % (parts[0][3].strip(), parts[0][4].strip())
-        content += [(state, fire, slug, datetime, url)]
+        content += [(state, fire, slug, datetime, filename, url)]
 
     with open('%s-fires-new.csv' % args.state, 'wb') as f:
         writer = csv.writer(f)

@@ -8,6 +8,7 @@
 //     "fire": "Rifle Range",
 //     "slug": "CO-GRX-J2LD",
 //     "datetime": "2015-08-25 10:44:00.000000",
+//     "filename": "CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml",
 //     "url": "http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml"
 // }
 
