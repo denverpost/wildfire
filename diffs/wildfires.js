@@ -1,3 +1,16 @@
+// Publish a list of recent fires.
+// Also create an object that manages a map and allows us to view all
+// the available fire boundaries.
+
+// One fire looks like this:
+// {
+//     "state": "CO",
+//     "fire": "Rifle Range",
+//     "slug": "CO-GRX-J2LD",
+//     "datetime": "2015-08-25 10:44:00.000000",
+//     "url": "http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/CO-GRX-J2LD%20Rifle%20Range%208-25-2015%201044.kml"
+// }
+
 $.ajax({
     dataType: 'json',
     //url: 'http://extras.denverpost.com/app/trial-results/output/config.jsonp',
@@ -12,6 +25,9 @@ $.ajax({
         });
     }
 });
+
+
+
 var boundarymap = {
     slugify: function (str) {
         // From http://dense13.com/blog/2009/05/03/converting-string-to-slug-javascript/
