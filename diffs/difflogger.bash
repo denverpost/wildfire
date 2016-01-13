@@ -7,7 +7,7 @@
 # Currently two variables are set in it:
 #   $RECIPIENTS, a space-separated list of email addresses to send to
 #   $SENDER, the sending email address.
-source ../source.bash
+source ../.source.bash
 
 # Default arguments
 URL='http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/'
