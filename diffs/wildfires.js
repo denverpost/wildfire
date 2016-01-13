@@ -81,6 +81,7 @@ var mapmanager = {
         }
     }),
     load_kml: function (filename) {
+
         // Because of differences in file naming conventions:
         filename = filename.replace(/%20/g, '_');
 
